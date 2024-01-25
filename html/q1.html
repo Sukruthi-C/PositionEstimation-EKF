@@ -1,0 +1,608 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>q1</title><meta name="generator" content="MATLAB 9.12"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-12-19"><meta name="DC.source" content="q1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">AEROSP584 Final Project Q1 Sukruthi Chidananda</a></li><li><a href="#2">Given Data</a></li><li><a href="#3">For Tmeas = 1</a></li><li><a href="#4">For Tmeas = 0.1</a></li><li><a href="#5">Plots</a></li><li><a href="#6">Functions</a></li></ul></div><h2 id="1">AEROSP584 Final Project Q1 Sukruthi Chidananda</h2><pre class="codeinput">clear <span class="string">all</span>;
+clc;
+load <span class="string">AE584_Final_P1_pos_Ts_0_01.mat</span>
+load <span class="string">AE584_Final_P1_meas_Ts_0_01.mat</span>
+</pre><h2 id="2">Given Data</h2><pre class="codeinput">R = eye(3);
+Q = eye(6);
+meu = 0.4;
+x_hat_0 = [2.5 0 1 0 0.5 -0.1]';
+p0_0 = eye(6);
+Ts = 0.01;
+Tmeas1 = 1;
+Tmeas2 = 0.1;
+x_k = x_hat_0;
+x_k2 = x_hat_0;
+Pk_k = p0_0;
+d1 = [];
+d2 = [];
+temp_ck = [];
+tempA = [];
+time1 = [];
+time2 = [];
+</pre><h2 id="3">For Tmeas = 1</h2><pre class="codeinput"><span class="keyword">for</span> t1 = 1:10001
+
+time1 = [time1 t1*Ts];
+w1k = [randn(1);randn(1);randn(1)];
+w2k = [randn(1);randn(1);randn(1)];
+o = [zeros(3) ; 0.01*eye(3)];
+gxk = [Range(t1);Azimuth(t1);Elevation(t1)];
+
+<span class="comment">% if condition for YK</span>
+tip=mod((t1*Ts),Tmeas1);
+    <span class="keyword">if</span>(tip==0)
+        ck = c_k(x_k(1),x_k(2),x_k(3));
+        Yk = gxk + 0.01*eye(3)*w2k;
+        temp_ck = [temp_ck ;ck];
+    <span class="keyword">else</span>
+        ck=zeros(3,6);
+        Yk = zeros(3,1);
+    <span class="keyword">end</span>
+
+<span class="comment">%g matrix and A matrix</span>
+l1 = gxyz(meu,x_k(1),x_k(2),x_k(3));
+l2 = g_xyz(l1);
+A = expm(l2*Ts);
+
+<span class="comment">%state error</span>
+Pk1_k = A*Pk_k*A'+Q;
+Kk = Pk1_k*ck'*inv(ck*Pk1_k*ck'+R);
+Pk1_k1 = Pk1_k - (Kk*ck*Pk1_k);
+Pk_k = Pk1_k1;
+
+
+<span class="comment">%dynamic model</span>
+x_k11 = A*x_k;
+Gt = g(x_k11(1),x_k11(2),x_k11(3));
+x_k11k1 = x_k11 + (Kk*(Yk-Gt));
+x_k = x_k11k1;
+d1 = [d1 x_k];
+
+<span class="keyword">end</span>
+</pre><h2 id="4">For Tmeas = 0.1</h2><pre class="codeinput"><span class="keyword">for</span> t2 = 1:10001
+
+time2 = [time2 t2*Ts];
+w1k = [randn(1);randn(1);randn(1)];
+w2k = [randn(1);randn(1);randn(1)];
+o = [zeros(3) ; 0.01*eye(3)];
+gxk = [Range(t2);Azimuth(t2);Elevation(t2)];
+
+<span class="comment">% if condition for YK</span>
+tip=mod((t2*Ts),Tmeas2);
+    <span class="keyword">if</span>(tip==0)
+        ck = c_k(x_k2(1),x_k2(2),x_k2(3));
+        Yk = gxk + 0.01*eye(3)*w2k;
+        temp_ck = [temp_ck ;ck];
+    <span class="keyword">else</span>
+        ck=zeros(3,6);
+        Yk = zeros(3,1);
+    <span class="keyword">end</span>
+
+
+<span class="comment">% g matrix</span>
+l1 = gxyz(meu,x_k2(1),x_k2(2),x_k2(3));
+l2 = g_xyz(l1);
+A = expm(l2*Ts);
+
+<span class="comment">%state error</span>
+Pk1_k = A*Pk_k*A'+Q;
+Kk = Pk1_k*ck'*inv(ck*Pk1_k*ck'+R);
+Pk1_k1 = Pk1_k - (Kk*ck*Pk1_k);
+Pk_k = Pk1_k1;
+
+<span class="comment">%dynamic model</span>
+x_k11 = A*x_k2;
+Gt = g(x_k11(1),x_k11(2),x_k11(3));
+x_k11k1 = x_k11 + (Kk*(Yk-Gt));
+x_k2 = x_k11k1;
+d2 = [d2 x_k2];
+
+<span class="keyword">end</span>
+</pre><h2 id="5">Plots</h2><pre class="codeinput">figure(1)
+plot3(Xref(1,:),Yref(1,:),Zref(1,:),<span class="string">'Displayname'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+grid <span class="string">minor</span>;
+hold <span class="string">on</span>;
+plot3(d1(1,:),d1(2,:),d1(3,:),<span class="string">'Displayname'</span>,<span class="string">'Estimated trajectory Tmeas = 1'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
+plot3(d2(1,:),d2(2,:),d2(3,:),<span class="string">'Displayname'</span>,<span class="string">'Estimated trajectory Tmeas = 0.1'</span>,<span class="string">'Color'</span>,[0.4660, 0.6740, 0.1880]);
+legend
+hold <span class="string">off</span>;
+
+figure(2)
+subplot(3,1,1)
+plot(time1,Xref(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>;
+grid <span class="string">minor</span>;
+grid <span class="string">on</span>;
+plot(time1,d1(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Estimated trajectory Tmeas = 1'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
+title(<span class="string">'X component for Tmeas = 1'</span>)
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'X component'</span>);
+legend(<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+hold <span class="string">off</span>;
+subplot(3,1,2)
+plot(time1,Yref(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>;
+grid <span class="string">minor</span>;
+grid <span class="string">on</span>;
+plot(time1,d1(2,:),<span class="string">'DisplayName'</span>,<span class="string">'Estimated trajectory Tmeas = 1'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
+title(<span class="string">'Y component for Tmeas = 1'</span>)
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Y component'</span>);
+legend(<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+hold <span class="string">off</span>;
+subplot(3,1,3)
+plot(time1,Zref(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>;
+grid <span class="string">minor</span>;
+grid <span class="string">on</span>;
+plot(time1,d1(3,:),<span class="string">'DisplayName'</span>,<span class="string">'Estimated trajectory Tmeas = 1'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
+title(<span class="string">'Z component for Tmeas = 1'</span>)
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Z component'</span>);
+legend(<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+hold <span class="string">off</span>;
+
+figure(3)
+subplot(3,1,1)
+plot(time2,Xref(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>;
+grid <span class="string">minor</span>;
+grid <span class="string">on</span>;
+plot(time2,d2(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Estimated trajectory Tmeas = 0.1'</span>,<span class="string">'Color'</span>,[0.4660, 0.6740, 0.1880]);
+title(<span class="string">'X component for Tmeas = 0.1'</span>)
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'X component'</span>);
+legend(<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+hold <span class="string">off</span>;
+subplot(3,1,2)
+plot(time2,Yref(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>;
+grid <span class="string">minor</span>;
+grid <span class="string">on</span>;
+plot(time2,d2(2,:),<span class="string">'DisplayName'</span>,<span class="string">'Estimated trajectory Tmeas = 0.1'</span>,<span class="string">'Color'</span>,[0.4660, 0.6740, 0.1880]);
+title(<span class="string">'Y component for Tmeas = 0.1'</span>)
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Y component'</span>);
+legend(<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+hold <span class="string">off</span>;
+subplot(3,1,3)
+plot(time2,Zref(1,:),<span class="string">'DisplayName'</span>,<span class="string">'Refrence trajectory'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>;
+grid <span class="string">minor</span>;
+grid <span class="string">on</span>;
+plot(time2,d2(3,:),<span class="string">'DisplayName'</span>,<span class="string">'Estimated trajectory Tmeas = 0.1'</span>,<span class="string">'Color'</span>,[0.4660, 0.6740, 0.1880]);
+title(<span class="string">'Z component for Tmeas = 0.1'</span>)
+xlabel(<span class="string">'time'</span>);
+ylabel(<span class="string">'Z component'</span>);
+legend(<span class="string">'Location'</span>,<span class="string">'northwest'</span>);
+hold <span class="string">off</span>;
+</pre><img vspace="5" hspace="5" src="q1_01.png" alt=""> <img vspace="5" hspace="5" src="q1_02.png" alt=""> <img vspace="5" hspace="5" src="q1_03.png" alt=""> <h2 id="6">Functions</h2><pre class="codeinput"><span class="keyword">function</span> f_xyz = gxyz(mu,x,y,z)
+    r=sqrt(x^2+y^2+z^2);
+    x11 = ((3*(mu*x*x))/r^5)-(mu/(r^3));
+    x12 = (3*mu*x*y)/r^5;
+    x13 = (3*mu*x*z)/r^5;
+    x21 = (3*mu*x*y)/r^5;
+    x22 = ((3*(mu*y*y))/r^5)-(mu/(r^3));
+    x23 = (3*mu*y*z)/r^5;
+    x31 = (3*mu*x*z)/r^5;
+    x32 = (3*mu*y*z)/r^5;
+    x33 = ((3*(mu*z*z))/r^5)-(mu/(r^3));
+    f_xyz = [x11 x12 x13;x21 x22 x23;x31 x32 x33];
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> f_xk = g_xyz(f1)
+    f_xk=[zeros(3) eye(3);f1 zeros(3)];
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> AzOut = AzUnwrap(Az, clearVar)
+
+    <span class="keyword">persistent</span> kwrap
+    <span class="keyword">persistent</span> prevAz
+
+    <span class="keyword">if</span> clearVar == 1
+       kwrap = [];
+       prevAz = [];
+       <span class="keyword">return</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> isempty(kwrap)
+        kwrap = 0;
+        prevAz = -1.5708;
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> ((Az + 2*kwrap*pi) - prevAz &lt;= -pi)
+       kwrap = kwrap + 1;
+    <span class="keyword">elseif</span> ((Az + 2*kwrap*pi) - prevAz &gt;= pi)
+       kwrap = kwrap - 1;
+    <span class="keyword">end</span>
+    AzOut = Az + 2*kwrap*pi;
+    prevAz = AzOut;
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> g_xk = g(x,y,z)
+
+a1 = sqrt(x^2+y^2+z^2);
+a2 = -atan2(x,y);
+w2 = AzUnwrap(a2,0);
+a3 = atan2(z,(sqrt(x^2+y^2)));
+
+g_xk = [a1;w2;a3];
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> Ck = c_k(x,y,z)
+
+r=(x^2+y^2+z^2);
+x11 = x/sqrt(x^2+y^2+z^2);
+x12 = y/sqrt(x^2+y^2+z^2);
+x13 = z/sqrt(x^2+y^2+z^2);
+x14 = 0;
+x15 = 0;
+x16 = 0;
+x21 = (-y/(x^2+y^2));
+x22 = (x/(x^2+y^2));
+x23 = 0;
+x24 = 0;
+x25 = 0;
+x26 = 0;
+x31 = -x*z/(r*sqrt(x^2+y^2));
+x32 = -y*z/(r*sqrt(x^2+y^2));
+x33 = (x^2+y^2)/(r*sqrt(x^2+y^2));
+x34 = 0;
+x35 = 0;
+x36 = 0;
+Ck = [x11 x12 x13 x14 x15 x16;
+      x21 x22 x23 x24 x25 x26;
+      x31 x32 x33 x34 x35 x36];
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% AEROSP584 Final Project Q1 Sukruthi Chidananda
+
+clear all;
+clc;
+load AE584_Final_P1_pos_Ts_0_01.mat
+load AE584_Final_P1_meas_Ts_0_01.mat
+
+%% Given Data
+R = eye(3);
+Q = eye(6);
+meu = 0.4;
+x_hat_0 = [2.5 0 1 0 0.5 -0.1]';
+p0_0 = eye(6);
+Ts = 0.01;
+Tmeas1 = 1;
+Tmeas2 = 0.1;
+x_k = x_hat_0;
+x_k2 = x_hat_0;
+Pk_k = p0_0;
+d1 = [];
+d2 = [];
+temp_ck = [];
+tempA = [];
+time1 = [];
+time2 = [];
+
+%% For Tmeas = 1
+
+
+for t1 = 1:10001
+
+time1 = [time1 t1*Ts];
+w1k = [randn(1);randn(1);randn(1)];
+w2k = [randn(1);randn(1);randn(1)];  
+o = [zeros(3) ; 0.01*eye(3)];
+gxk = [Range(t1);Azimuth(t1);Elevation(t1)];
+
+% if condition for YK
+tip=mod((t1*Ts),Tmeas1);
+    if(tip==0)
+        ck = c_k(x_k(1),x_k(2),x_k(3));
+        Yk = gxk + 0.01*eye(3)*w2k;
+        temp_ck = [temp_ck ;ck];
+    else
+        ck=zeros(3,6);
+        Yk = zeros(3,1);
+    end
+
+%g matrix and A matrix
+l1 = gxyz(meu,x_k(1),x_k(2),x_k(3));
+l2 = g_xyz(l1);
+A = expm(l2*Ts);
+
+%state error
+Pk1_k = A*Pk_k*A'+Q;
+Kk = Pk1_k*ck'*inv(ck*Pk1_k*ck'+R);
+Pk1_k1 = Pk1_k - (Kk*ck*Pk1_k);
+Pk_k = Pk1_k1;
+
+
+%dynamic model
+x_k11 = A*x_k;
+Gt = g(x_k11(1),x_k11(2),x_k11(3));
+x_k11k1 = x_k11 + (Kk*(Yk-Gt));
+x_k = x_k11k1;
+d1 = [d1 x_k];
+
+end
+
+%% For Tmeas = 0.1
+
+for t2 = 1:10001
+
+time2 = [time2 t2*Ts];
+w1k = [randn(1);randn(1);randn(1)];
+w2k = [randn(1);randn(1);randn(1)];  
+o = [zeros(3) ; 0.01*eye(3)];
+gxk = [Range(t2);Azimuth(t2);Elevation(t2)];
+
+% if condition for YK
+tip=mod((t2*Ts),Tmeas2);
+    if(tip==0)
+        ck = c_k(x_k2(1),x_k2(2),x_k2(3));
+        Yk = gxk + 0.01*eye(3)*w2k;
+        temp_ck = [temp_ck ;ck];
+    else
+        ck=zeros(3,6);
+        Yk = zeros(3,1);
+    end
+
+ 
+% g matrix
+l1 = gxyz(meu,x_k2(1),x_k2(2),x_k2(3));
+l2 = g_xyz(l1);
+A = expm(l2*Ts);
+
+%state error 
+Pk1_k = A*Pk_k*A'+Q;
+Kk = Pk1_k*ck'*inv(ck*Pk1_k*ck'+R);
+Pk1_k1 = Pk1_k - (Kk*ck*Pk1_k);
+Pk_k = Pk1_k1;
+
+%dynamic model
+x_k11 = A*x_k2;
+Gt = g(x_k11(1),x_k11(2),x_k11(3));
+x_k11k1 = x_k11 + (Kk*(Yk-Gt));
+x_k2 = x_k11k1;
+d2 = [d2 x_k2];
+
+end
+
+%% Plots
+
+
+figure(1)
+plot3(Xref(1,:),Yref(1,:),Zref(1,:),'Displayname','Refrence trajectory','Color','r');
+grid minor;
+hold on;
+plot3(d1(1,:),d1(2,:),d1(3,:),'Displayname','Estimated trajectory Tmeas = 1','Color','b');
+plot3(d2(1,:),d2(2,:),d2(3,:),'Displayname','Estimated trajectory Tmeas = 0.1','Color',[0.4660, 0.6740, 0.1880]);
+legend
+hold off;
+
+figure(2)
+subplot(3,1,1)
+plot(time1,Xref(1,:),'DisplayName','Refrence trajectory','Color','r');
+hold on;
+grid minor;
+grid on;
+plot(time1,d1(1,:),'DisplayName','Estimated trajectory Tmeas = 1','Color','b');
+title('X component for Tmeas = 1')
+xlabel('time');
+ylabel('X component');
+legend('Location','northwest');
+hold off;
+subplot(3,1,2)
+plot(time1,Yref(1,:),'DisplayName','Refrence trajectory','Color','r');
+hold on;
+grid minor;
+grid on;
+plot(time1,d1(2,:),'DisplayName','Estimated trajectory Tmeas = 1','Color','b');
+title('Y component for Tmeas = 1')
+xlabel('time');
+ylabel('Y component');
+legend('Location','northwest');
+hold off;
+subplot(3,1,3)
+plot(time1,Zref(1,:),'DisplayName','Refrence trajectory','Color','r');
+hold on;
+grid minor;
+grid on;
+plot(time1,d1(3,:),'DisplayName','Estimated trajectory Tmeas = 1','Color','b');
+title('Z component for Tmeas = 1')
+xlabel('time');
+ylabel('Z component');
+legend('Location','northwest');
+hold off;
+
+figure(3)
+subplot(3,1,1)
+plot(time2,Xref(1,:),'DisplayName','Refrence trajectory','Color','r');
+hold on;
+grid minor;
+grid on;
+plot(time2,d2(1,:),'DisplayName','Estimated trajectory Tmeas = 0.1','Color',[0.4660, 0.6740, 0.1880]);
+title('X component for Tmeas = 0.1')
+xlabel('time');
+ylabel('X component');
+legend('Location','northwest');
+hold off;
+subplot(3,1,2)
+plot(time2,Yref(1,:),'DisplayName','Refrence trajectory','Color','r');
+hold on;
+grid minor;
+grid on;
+plot(time2,d2(2,:),'DisplayName','Estimated trajectory Tmeas = 0.1','Color',[0.4660, 0.6740, 0.1880]);
+title('Y component for Tmeas = 0.1')
+xlabel('time');
+ylabel('Y component');
+legend('Location','northwest');
+hold off;
+subplot(3,1,3)
+plot(time2,Zref(1,:),'DisplayName','Refrence trajectory','Color','r');
+hold on;
+grid minor;
+grid on;
+plot(time2,d2(3,:),'DisplayName','Estimated trajectory Tmeas = 0.1','Color',[0.4660, 0.6740, 0.1880]);
+title('Z component for Tmeas = 0.1')
+xlabel('time');
+ylabel('Z component');
+legend('Location','northwest');
+hold off;
+
+
+%% Functions
+
+function f_xyz = gxyz(mu,x,y,z)
+    r=sqrt(x^2+y^2+z^2);
+    x11 = ((3*(mu*x*x))/r^5)-(mu/(r^3));
+    x12 = (3*mu*x*y)/r^5;
+    x13 = (3*mu*x*z)/r^5;
+    x21 = (3*mu*x*y)/r^5;
+    x22 = ((3*(mu*y*y))/r^5)-(mu/(r^3));
+    x23 = (3*mu*y*z)/r^5;
+    x31 = (3*mu*x*z)/r^5;
+    x32 = (3*mu*y*z)/r^5;
+    x33 = ((3*(mu*z*z))/r^5)-(mu/(r^3));
+    f_xyz = [x11 x12 x13;x21 x22 x23;x31 x32 x33];
+end
+
+function f_xk = g_xyz(f1)
+    f_xk=[zeros(3) eye(3);f1 zeros(3)];
+end
+
+function AzOut = AzUnwrap(Az, clearVar)
+
+    persistent kwrap
+    persistent prevAz
+    
+    if clearVar == 1
+       kwrap = [];
+       prevAz = [];
+       return
+    end
+    
+    if isempty(kwrap)
+        kwrap = 0;
+        prevAz = -1.5708;
+    end
+    
+    if ((Az + 2*kwrap*pi) - prevAz <= -pi)
+       kwrap = kwrap + 1;
+    elseif ((Az + 2*kwrap*pi) - prevAz >= pi)
+       kwrap = kwrap - 1;
+    end
+    AzOut = Az + 2*kwrap*pi;
+    prevAz = AzOut;
+
+end
+
+function g_xk = g(x,y,z)
+
+a1 = sqrt(x^2+y^2+z^2);
+a2 = -atan2(x,y);
+w2 = AzUnwrap(a2,0);
+a3 = atan2(z,(sqrt(x^2+y^2)));
+
+g_xk = [a1;w2;a3];
+
+end
+
+function Ck = c_k(x,y,z)
+
+r=(x^2+y^2+z^2);
+x11 = x/sqrt(x^2+y^2+z^2);
+x12 = y/sqrt(x^2+y^2+z^2);
+x13 = z/sqrt(x^2+y^2+z^2);
+x14 = 0;
+x15 = 0;
+x16 = 0;
+x21 = (-y/(x^2+y^2));
+x22 = (x/(x^2+y^2));
+x23 = 0;
+x24 = 0;
+x25 = 0;
+x26 = 0;
+x31 = -x*z/(r*sqrt(x^2+y^2));
+x32 = -y*z/(r*sqrt(x^2+y^2));
+x33 = (x^2+y^2)/(r*sqrt(x^2+y^2));
+x34 = 0;
+x35 = 0;
+x36 = 0;
+Ck = [x11 x12 x13 x14 x15 x16;
+      x21 x22 x23 x24 x25 x26;
+      x31 x32 x33 x34 x35 x36];
+
+end
+##### SOURCE END #####
+--></body></html>
